@@ -2,7 +2,6 @@ package example;
 
 import java.util.List;
 
-@SuppressWarnings("StringConcatenationInLoop")
 class Customer {
     private final String name;
     private final List<Rental> rentals;
@@ -12,21 +11,18 @@ class Customer {
         this.rentals = rentals;
     }
 
-
     public String getName() {
         return name;
     }
 
     public String statement() {
-        String result = "Rental Record for " + getName() + "\n";
+        StringBuilder result = new StringBuilder("Rental Record for " + getName() + "\n");
         for (Rental rental : rentals) {
-            //show figures for this rental
-            result += "\t" + rental.getMovie().getTitle()+ "\t" + rental.getCharge() + "\n";
+            result.append("\t").append(rental.getMovie().getTitle()).append("\t").append(rental.getCharge()).append("\n");
         }
-        //add footer lines
-        result += "Amount owed is " + getTotalCharge() + "\n";
-        result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
-        return result;
+        result.append("Amount owed is ").append(getTotalCharge()).append("\n");
+        result.append("You earned ").append(getTotalFrequentRenterPoints()).append(" frequent renter points");
+        return result.toString();
     }
 
     private double getTotalCharge() {
@@ -35,13 +31,9 @@ class Customer {
                 .sum();
     }
 
-
     private int getTotalFrequentRenterPoints() {
-
         return rentals.stream()
                 .mapToInt(Rental::getFrequentRenterPointsIncrement)
                 .sum();
     }
-
-
 }
