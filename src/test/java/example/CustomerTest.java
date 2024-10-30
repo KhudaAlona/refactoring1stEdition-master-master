@@ -4,6 +4,7 @@ import org.junit.Test;
 import java.util.List;
 import static example.Movie.MovieType.*;
 import static org.junit.Assert.assertEquals;
+import static example.Movie.MovieType.HORROR;
 
 public class CustomerTest {
 
@@ -51,7 +52,19 @@ public class CustomerTest {
 
         assertEquals(expected, customer.statement());
     }
+    @Test
+    public void testStatementForHorrorMovie() {
+        Movie movie = new Movie("Alien", HORROR);
+        Rental rental = new Rental(movie, 3);
+        Customer customer = new Customer("John Doe", List.of(rental));
 
+        String expected = "Rental Record for John Doe\n" +
+                "\tAlien\t3.0\n" +
+                "Amount owed is 3.0\n" +
+                "You earned 1 frequent renter points";
+
+        assertEquals(expected, customer.statement());
+    }
     @Test
     public void testStatementForMixedRentals() {
         Movie movie1 = new Movie("Rembo", REGULAR);
@@ -74,4 +87,6 @@ public class CustomerTest {
 
         assertEquals(expected, customer.statement());
     }
+
+
 }
